@@ -2054,7 +2054,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonDouble *partyData = gTrainers[trainerNum].party.DoubleMon;
 
-                u8 selectedMonIndex = Random() % 2; //Get a random number between 0 and 1
+                u8 selectedMonIndex = (Random() % 100 > 49) ? 1 : 0; //Get a random number between 0 and 1
                 
                 switch (selectedMonIndex)
                 {

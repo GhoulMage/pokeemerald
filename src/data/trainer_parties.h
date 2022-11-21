@@ -27,54 +27,54 @@ static const struct TrainerMonNoItemDefaultMoves sParty_GruntAquaHideout2[] = {
     }
 };
 
-static const struct TrainerMonDouble sParty_RandomTest[] = {
-    {
+static const struct TrainerMonDouble sParty_Test1[] = {
+    { //First Mon - Poochyena or Zigzagoon
         .mon1 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 6,
             .species = SPECIES_POOCHYENA,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_POUND, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
         },
         .mon2 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 6,
             .species = SPECIES_ZIGZAGOON,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE},
         }
     },
 
-    {
+    { //Second Mon - Metapod or Kakuna
         .mon1 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 7,
             .species = SPECIES_METAPOD,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_TACKLE, MOVE_STRING_SHOT, MOVE_HARDEN, MOVE_NONE},
         },
         .mon2 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 7,
             .species = SPECIES_KAKUNA,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_POISON_STING, MOVE_STRING_SHOT, MOVE_HARDEN, MOVE_NONE},
         }
     },
 
-    {
+    { //Third Mon - Pidgey or Spearow
         .mon1 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 9,
             .species = SPECIES_PIDGEY,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_GUST, MOVE_NONE},
         },
         .mon2 {
-            .iv = 255,
+            .iv = 40,
             .lvl = 9,
             .species = SPECIES_SPEAROW,
-            .heldItem = ITEM_ORAN_BERRY,
+            .heldItem = ITEM_NONE,
             .moves = {MOVE_PECK, MOVE_GROWL, MOVE_LEER, MOVE_NONE},
         }
     }

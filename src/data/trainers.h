@@ -3826,7 +3826,7 @@ const struct Trainer gTrainers[] = {
         .items = {},
         .doubleBattle = FALSE,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
-        .party = DOUBLE_MON(sParty_RandomTest),
+        .party = DOUBLE_MON(sParty_Test1), //Testing Random Battles
     },
 
     [TRAINER_BILLY] =
