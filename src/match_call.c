@@ -1812,6 +1812,10 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
         speciesName = gSpeciesNames[party.ItemCustomMoves[monId].species];
         break;
+    case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_RANDOM:
+        //I guess this is for those match calls where a trainer talks about their Pokémon. We choose any of the two mon to to make it consistent with randomness.
+        speciesName = (Random() & 2) == 0 ? gSpeciesNames[party.DoubleMon[monId].mon1.species] : gSpeciesNames[party.DoubleMon[monId].mon2.species];
+        break;
     }
 
     StringCopy(destStr, speciesName);
