@@ -2054,11 +2054,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonDouble *partyData = gTrainers[trainerNum].party.DoubleMon;
 
-                u8 selectedMonIndex = (Random() % 100 > 49) ? 1 : 0; //Get a random number between 0 and 1
+                u8 selectedMonIndex = (Random() % 100 > 49) ? 1 : 0; //Get a random number between 0 and 1.  I've noticed that only using '% 2' is weird in terms of aparent randomness when testing.
                 
                 switch (selectedMonIndex)
                 {
-                case 1: //mon2
+                case 1: //mon1
                     for (j = 0; gSpeciesNames[partyData[i].mon1.species][j] != EOS; j++)
                         nameHash += gSpeciesNames[partyData[i].mon1.species][j];
 
@@ -2075,8 +2075,10 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                     }
                     break;
                 
-                case 0:
-                default: //mon1
+                case 0: //mon2
+                default:
+                    //This is identical to the first case, except we use .mon2
+                    //Optimally we should create a new function that handles a mon and just call it from the two cases, specifying either mon1 or mon2
                     for (j = 0; gSpeciesNames[partyData[i].mon2.species][j] != EOS; j++)
                         nameHash += gSpeciesNames[partyData[i].mon2.species][j];
 
