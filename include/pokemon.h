@@ -324,6 +324,7 @@ struct BattleMove
     u8 effect;
     u8 power;
     u8 type;
+    u8 type2;
     u8 accuracy;
     u8 pp;
     u8 secondaryEffectChance;

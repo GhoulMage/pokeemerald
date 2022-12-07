@@ -55,6 +55,12 @@ struct AnimFrameCmd
     u32 vFlip:1;
 };
 
+struct AnimPaletteCmd
+{
+    u32 type:16;
+    u32 paletteNum:6;
+};
+
 struct AnimLoopCmd
 {
     u32 type:16;
@@ -74,12 +80,15 @@ union AnimCmd
 {
     s16 type;
     struct AnimFrameCmd frame;
+    struct AnimPaletteCmd palette;
     struct AnimLoopCmd loop;
     struct AnimJumpCmd jump;
 };
 
 #define ANIMCMD_FRAME(...) \
     {.frame = {__VA_ARGS__}}
+#define ANIMCMD_PALETTE(_paletteNum) \
+    {.palette = {.type = -4, .paletteNum = _paletteNum}}
 #define ANIMCMD_LOOP(_count) \
     {.loop = {.type = -3, .count = _count}}
 #define ANIMCMD_JUMP(_target) \

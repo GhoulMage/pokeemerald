@@ -747,99 +747,74 @@ static const struct OamData sOamData_MoveTypes =
     .paletteNum = 0,
     .affineParam = 0,
 };
-static const union AnimCmd sSpriteAnim_TypeNormal[] = {
-    ANIMCMD_FRAME(TYPE_NORMAL * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeFighting[] = {
-    ANIMCMD_FRAME(TYPE_FIGHTING * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeFlying[] = {
-    ANIMCMD_FRAME(TYPE_FLYING * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypePoison[] = {
-    ANIMCMD_FRAME(TYPE_POISON * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeGround[] = {
-    ANIMCMD_FRAME(TYPE_GROUND * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeRock[] = {
-    ANIMCMD_FRAME(TYPE_ROCK * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeBug[] = {
-    ANIMCMD_FRAME(TYPE_BUG * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeGhost[] = {
-    ANIMCMD_FRAME(TYPE_GHOST * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeSteel[] = {
-    ANIMCMD_FRAME(TYPE_STEEL * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeMystery[] = {
-    ANIMCMD_FRAME(TYPE_MYSTERY * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeFire[] = {
-    ANIMCMD_FRAME(TYPE_FIRE * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeWater[] = {
-    ANIMCMD_FRAME(TYPE_WATER * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeGrass[] = {
-    ANIMCMD_FRAME(TYPE_GRASS * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeElectric[] = {
-    ANIMCMD_FRAME(TYPE_ELECTRIC * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypePsychic[] = {
-    ANIMCMD_FRAME(TYPE_PSYCHIC * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeIce[] = {
-    ANIMCMD_FRAME(TYPE_ICE * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeDragon[] = {
-    ANIMCMD_FRAME(TYPE_DRAGON * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_TypeDark[] = {
-    ANIMCMD_FRAME(TYPE_DARK * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_CategoryCool[] = {
-    ANIMCMD_FRAME((CONTEST_CATEGORY_COOL + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_CategoryBeauty[] = {
-    ANIMCMD_FRAME((CONTEST_CATEGORY_BEAUTY + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_CategoryCute[] = {
-    ANIMCMD_FRAME((CONTEST_CATEGORY_CUTE + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_CategorySmart[] = {
-    ANIMCMD_FRAME((CONTEST_CATEGORY_SMART + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd sSpriteAnim_CategoryTough[] = {
-    ANIMCMD_FRAME((CONTEST_CATEGORY_TOUGH + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
-    ANIMCMD_END
-};
-static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT] = {
+
+#define TYPE_ANIM(type)                                 \
+{                                                       \
+    ANIMCMD_FRAME(type * 8, 0, FALSE, FALSE),           \
+    ANIMCMD_END                                         \
+}
+#define DOUBLE_TYPE_ANIM(type1, type2, pal1, pal2)      \
+{                                                       \
+    ANIMCMD_FRAME(type1 * 8, 30, FALSE, FALSE),         \
+    ANIMCMD_PALETTE(pal2),                              \
+    ANIMCMD_FRAME(type2 * 8, 30, FALSE, FALSE),         \
+    ANIMCMD_PALETTE(pal1),                              \
+    ANIMCMD_JUMP(0)                                     \
+}
+
+#define PAL_TYPE_NORMAL       13
+#define PAL_TYPE_FIGHTING     13
+#define PAL_TYPE_FLYING       14
+#define PAL_TYPE_POISON       14
+#define PAL_TYPE_GROUND       13
+#define PAL_TYPE_ROCK         13
+#define PAL_TYPE_BUG          15
+#define PAL_TYPE_GHOST        14
+#define PAL_TYPE_STEEL        13
+#define PAL_TYPE_MYSTERY      15
+#define PAL_TYPE_FIRE         13
+#define PAL_TYPE_WATER        14
+#define PAL_TYPE_GRASS        15
+#define PAL_TYPE_ELECTRIC     13
+#define PAL_TYPE_PSYCHIC      14
+#define PAL_TYPE_ICE          14
+#define PAL_TYPE_DRAGON       15
+#define PAL_TYPE_DARK         13
+
+static const union AnimCmd sSpriteAnim_TypeNormal[]     = TYPE_ANIM(TYPE_NORMAL  );
+static const union AnimCmd sSpriteAnim_TypeFighting[]   = TYPE_ANIM(TYPE_FIGHTING);
+static const union AnimCmd sSpriteAnim_TypeFlying[]     = TYPE_ANIM(TYPE_FLYING  );
+static const union AnimCmd sSpriteAnim_TypePoison[]     = TYPE_ANIM(TYPE_POISON  );
+static const union AnimCmd sSpriteAnim_TypeGround[]     = TYPE_ANIM(TYPE_GROUND  );
+static const union AnimCmd sSpriteAnim_TypeRock[]       = TYPE_ANIM(TYPE_ROCK    );
+static const union AnimCmd sSpriteAnim_TypeBug[]        = TYPE_ANIM(TYPE_BUG     );
+static const union AnimCmd sSpriteAnim_TypeGhost[]      = TYPE_ANIM(TYPE_GHOST   );
+static const union AnimCmd sSpriteAnim_TypeSteel[]      = TYPE_ANIM(TYPE_STEEL   );
+static const union AnimCmd sSpriteAnim_TypeMystery[]    = TYPE_ANIM(TYPE_MYSTERY );
+static const union AnimCmd sSpriteAnim_TypeFire[]       = TYPE_ANIM(TYPE_FIRE    );
+static const union AnimCmd sSpriteAnim_TypeWater[]      = TYPE_ANIM(TYPE_WATER   );
+static const union AnimCmd sSpriteAnim_TypeGrass[]      = TYPE_ANIM(TYPE_GRASS   );
+static const union AnimCmd sSpriteAnim_TypeElectric[]   = TYPE_ANIM(TYPE_ELECTRIC);
+static const union AnimCmd sSpriteAnim_TypePsychic[]    = TYPE_ANIM(TYPE_PSYCHIC );
+static const union AnimCmd sSpriteAnim_TypeIce[]        = TYPE_ANIM(TYPE_ICE     );
+static const union AnimCmd sSpriteAnim_TypeDragon[]     = TYPE_ANIM(TYPE_DRAGON  );
+static const union AnimCmd sSpriteAnim_TypeDark[]       = TYPE_ANIM(TYPE_DARK    );
+
+static const union AnimCmd sSpriteAnim_CategoryCool[]   = TYPE_ANIM(CONTEST_CATEGORY_COOL   + NUMBER_OF_MON_TYPES);
+static const union AnimCmd sSpriteAnim_CategoryBeauty[] = TYPE_ANIM(CONTEST_CATEGORY_BEAUTY + NUMBER_OF_MON_TYPES);
+static const union AnimCmd sSpriteAnim_CategoryCute[]   = TYPE_ANIM(CONTEST_CATEGORY_CUTE   + NUMBER_OF_MON_TYPES);
+static const union AnimCmd sSpriteAnim_CategorySmart[]  = TYPE_ANIM(CONTEST_CATEGORY_SMART  + NUMBER_OF_MON_TYPES);
+static const union AnimCmd sSpriteAnim_CategoryTough[]  = TYPE_ANIM(CONTEST_CATEGORY_TOUGH  + NUMBER_OF_MON_TYPES);
+
+static const union AnimCmd sSpriteAnim_TypeGrassFire[]      = DOUBLE_TYPE_ANIM(TYPE_GRASS, TYPE_FIRE, PAL_TYPE_GRASS, PAL_TYPE_FIRE);
+static const union AnimCmd sSpriteAnim_TypeWaterGround[]    = DOUBLE_TYPE_ANIM(TYPE_WATER, TYPE_GROUND, PAL_TYPE_WATER, PAL_TYPE_GROUND);
+
+#define GRASS_FIRE        (NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT)
+#define WATER_GROUND      (NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT) + 1
+
+#define DOUBLE_TYPES_COUNT 2
+
+static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT + DOUBLE_TYPES_COUNT] = {
     sSpriteAnim_TypeNormal,
     sSpriteAnim_TypeFighting,
     sSpriteAnim_TypeFlying,
@@ -858,11 +833,15 @@ static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES
     sSpriteAnim_TypeIce,
     sSpriteAnim_TypeDragon,
     sSpriteAnim_TypeDark,
+
     sSpriteAnim_CategoryCool,
     sSpriteAnim_CategoryBeauty,
     sSpriteAnim_CategoryCute,
     sSpriteAnim_CategorySmart,
     sSpriteAnim_CategoryTough,
+
+    sSpriteAnim_TypeGrassFire,
+    sSpriteAnim_TypeWaterGround,
 };
 
 static const struct CompressedSpriteSheet sSpriteSheet_MoveTypes =
@@ -881,32 +860,38 @@ static const struct SpriteTemplate sSpriteTemplate_MoveTypes =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
 };
-static const u8 sMoveTypeToOamPaletteNum[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT] =
+
+static const u8 sMoveTypeToOamPaletteNum[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT + DOUBLE_TYPES_COUNT] =
 {
-    [TYPE_NORMAL] = 13,
-    [TYPE_FIGHTING] = 13,
-    [TYPE_FLYING] = 14,
-    [TYPE_POISON] = 14,
-    [TYPE_GROUND] = 13,
-    [TYPE_ROCK] = 13,
-    [TYPE_BUG] = 15,
-    [TYPE_GHOST] = 14,
-    [TYPE_STEEL] = 13,
-    [TYPE_MYSTERY] = 15,
-    [TYPE_FIRE] = 13,
-    [TYPE_WATER] = 14,
-    [TYPE_GRASS] = 15,
-    [TYPE_ELECTRIC] = 13,
-    [TYPE_PSYCHIC] = 14,
-    [TYPE_ICE] = 14,
-    [TYPE_DRAGON] = 15,
-    [TYPE_DARK] = 13,
+    [TYPE_NORMAL]   = PAL_TYPE_NORMAL   ,
+    [TYPE_FIGHTING] = PAL_TYPE_FIGHTING ,
+    [TYPE_FLYING]   = PAL_TYPE_FLYING   ,
+    [TYPE_POISON]   = PAL_TYPE_POISON   ,
+    [TYPE_GROUND]   = PAL_TYPE_GROUND   ,
+    [TYPE_ROCK]     = PAL_TYPE_ROCK     ,
+    [TYPE_BUG]      = PAL_TYPE_BUG      ,
+    [TYPE_GHOST]    = PAL_TYPE_GHOST    ,
+    [TYPE_STEEL]    = PAL_TYPE_STEEL    ,
+    [TYPE_MYSTERY]  = PAL_TYPE_MYSTERY  ,
+    [TYPE_FIRE]     = PAL_TYPE_FIRE     ,
+    [TYPE_WATER]    = PAL_TYPE_WATER    ,
+    [TYPE_GRASS]    = PAL_TYPE_GRASS    ,
+    [TYPE_ELECTRIC] = PAL_TYPE_ELECTRIC ,
+    [TYPE_PSYCHIC]  = PAL_TYPE_PSYCHIC  ,
+    [TYPE_ICE]      = PAL_TYPE_ICE      ,
+    [TYPE_DRAGON]   = PAL_TYPE_DRAGON   ,
+    [TYPE_DARK]     = PAL_TYPE_DARK     ,
+
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_COOL] = 13,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_BEAUTY] = 14,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_CUTE] = 14,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_SMART] = 15,
     [NUMBER_OF_MON_TYPES + CONTEST_CATEGORY_TOUGH] = 13,
+    
+    [GRASS_FIRE]    = PAL_TYPE_GRASS    ,
+    [WATER_GROUND]  = PAL_TYPE_WATER    ,
 };
+
 static const struct OamData sOamData_MoveSelector =
 {
     .y = 0,
@@ -3807,8 +3792,16 @@ static void SetMoveTypeIcons(void)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (summary->moves[i] != MOVE_NONE)
-            SetTypeSpritePosAndPal(gBattleMoves[summary->moves[i]].type, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
+        if (summary->moves[i] != MOVE_NONE){
+                if((gBattleMoves[summary->moves[i]].type == TYPE_GRASS && gBattleMoves[summary->moves[i]].type2 == TYPE_FIRE)
+                    || (gBattleMoves[summary->moves[i]].type == TYPE_FIRE && gBattleMoves[summary->moves[i]].type2 == TYPE_GRASS)){ //Fire/Grass, Grass/Fire
+                        SetTypeSpritePosAndPal(GRASS_FIRE, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
+                } else if((gBattleMoves[summary->moves[i]].type == TYPE_WATER && gBattleMoves[summary->moves[i]].type2 == TYPE_GROUND)
+                        || (gBattleMoves[summary->moves[i]].type == TYPE_GROUND && gBattleMoves[summary->moves[i]].type2 == TYPE_WATER)) { //Water/Ground, Ground/Water
+                            SetTypeSpritePosAndPal(WATER_GROUND, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
+                } else
+                SetTypeSpritePosAndPal(gBattleMoves[summary->moves[i]].type, 85, 32 + (i * 16), i + SPRITE_ARR_ID_TYPE);
+        }
         else
             SetSpriteInvisibility(i + SPRITE_ARR_ID_TYPE, TRUE);
     }

@@ -100,7 +100,7 @@ static void MoveSelectionCreateCursorAt(u8, u8);
 static void MoveSelectionDestroyCursorAt(u8);
 static void MoveSelectionDisplayPpNumber(void);
 static void MoveSelectionDisplayPpString(void);
-static void MoveSelectionDisplayMoveType(void);
+static void MoveSelectionDisplayMoveType(bool8);
 static void MoveSelectionDisplayMoveNames(void);
 static void HandleMoveSwitching(void);
 static void SwitchIn_HandleSoundAndEnd(void);
@@ -468,10 +468,21 @@ static void HandleInputChooseTarget(void)
     }
 }
 
+//check if has two types
+bool8 SelectedMoveHasDoubleType(struct ChooseMoveStruct *moveInfo){
+    if(gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type2 != TYPE_NONE)
+        return TRUE;
+
+    return FALSE;
+}
+
 static void HandleInputChooseMove(void)
 {
     bool32 canSelectTarget = FALSE;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
+
+    if(SelectedMoveHasDoubleType(moveInfo)) //check if selected move has two types
+        MoveSelectionDisplayMoveType(TRUE); //keep updating time and the label
 
     if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
         gPlayerDpadHoldFrames++;
@@ -555,7 +566,7 @@ static void HandleInputChooseMove(void)
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
             MoveSelectionDisplayPpNumber();
-            MoveSelectionDisplayMoveType();
+            MoveSelectionDisplayMoveType(FALSE);
         }
     }
     else if (JOY_NEW(DPAD_RIGHT))
@@ -568,7 +579,7 @@ static void HandleInputChooseMove(void)
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
             MoveSelectionDisplayPpNumber();
-            MoveSelectionDisplayMoveType();
+            MoveSelectionDisplayMoveType(FALSE);
         }
     }
     else if (JOY_NEW(DPAD_UP))
@@ -580,7 +591,7 @@ static void HandleInputChooseMove(void)
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
             MoveSelectionDisplayPpNumber();
-            MoveSelectionDisplayMoveType();
+            MoveSelectionDisplayMoveType(FALSE);
         }
     }
     else if (JOY_NEW(DPAD_DOWN))
@@ -593,7 +604,7 @@ static void HandleInputChooseMove(void)
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
             MoveSelectionDisplayPpNumber();
-            MoveSelectionDisplayMoveType();
+            MoveSelectionDisplayMoveType(FALSE);
         }
     }
     else if (JOY_NEW(SELECT_BUTTON))
@@ -762,7 +773,7 @@ static void HandleMoveSwitching(void)
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
         MoveSelectionDisplayPpString();
         MoveSelectionDisplayPpNumber();
-        MoveSelectionDisplayMoveType();
+        MoveSelectionDisplayMoveType(FALSE);
     }
     else if (JOY_NEW(B_BUTTON | SELECT_BUTTON))
     {
@@ -772,7 +783,7 @@ static void HandleMoveSwitching(void)
         gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseMove;
         MoveSelectionDisplayPpString();
         MoveSelectionDisplayPpNumber();
-        MoveSelectionDisplayMoveType();
+        MoveSelectionDisplayMoveType(FALSE);
     }
     else if (JOY_NEW(DPAD_LEFT))
     {
@@ -1493,7 +1504,15 @@ static void MoveSelectionDisplayPpNumber(void)
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
-static void MoveSelectionDisplayMoveType(void)
+u8 GetTimer(struct ChooseMoveStruct *moveInfo) {
+    if(++moveInfo->moveTypeTimer > 60){
+        moveInfo->moveTypeTimer = 0;
+    }
+
+    return moveInfo->moveTypeTimer;
+}
+
+static void MoveSelectionDisplayMoveType(bool8 updating)
 {
     u8 *txtPtr;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
@@ -1502,8 +1521,14 @@ static void MoveSelectionDisplayMoveType(void)
     *(txtPtr)++ = EXT_CTRL_CODE_BEGIN;
     *(txtPtr)++ = EXT_CTRL_CODE_FONT;
     *(txtPtr)++ = FONT_NORMAL;
-
-    StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
+    
+    if(!updating)
+        moveInfo->moveTypeTimer = 0;
+    if(SelectedMoveHasDoubleType(moveInfo) && GetTimer(moveInfo) < 30)
+        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type2]);
+    else
+        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
+    
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
 }
 
@@ -2647,7 +2672,7 @@ void InitMoveSelectionsVarsAndStrings(void)
     MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
     MoveSelectionDisplayPpString();
     MoveSelectionDisplayPpNumber();
-    MoveSelectionDisplayMoveType();
+    MoveSelectionDisplayMoveType(FALSE);
 }
 
 static void PlayerHandleChooseItem(void)
